@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taksidermie", "Taksidermie\Taksidermie.csproj", "{2CC45DAE-4E93-4DCF-8BBA-42FF9CECC0F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2CC45DAE-4E93-4DCF-8BBA-42FF9CECC0F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CC45DAE-4E93-4DCF-8BBA-42FF9CECC0F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CC45DAE-4E93-4DCF-8BBA-42FF9CECC0F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CC45DAE-4E93-4DCF-8BBA-42FF9CECC0F0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F213BC12-AA38-4C3E-9935-867A814B5E78}
+	EndGlobalSection
+EndGlobal
