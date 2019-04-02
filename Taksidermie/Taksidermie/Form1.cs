@@ -30,26 +30,7 @@ namespace Taksidermie
 
         string sName;
 
-        private void Main_Load(object sender, EventArgs e)
-        {
-            dgvClientInfo.DataSource = dh.Read();
-            dgvClientInfo.DataMember = "tblClientInfo";
-            dgvTrophee.DataSource = dh.ReadTrophee(id);
-            dgvTrophee.DataMember = "tblTrophee";
-
-            txtID.Enabled = false;
-            txtName.Enabled = false;
-            txtSurname.Enabled = false;
-            txtAddress.Enabled = false;
-            txtCellphone.Enabled = false;
-            btnClient.Visible = false;
-            btnAddClient.Visible = false;
-
-
-            UpdateTitles();
-
-
-        }
+        
 
         public void UpdateTitles()
         {
@@ -57,7 +38,7 @@ namespace Taksidermie
             dgvClientInfo.Columns[1].HeaderCell.Value = "Name";
             dgvClientInfo.Columns[2].HeaderCell.Value = "Surname";
             dgvClientInfo.Columns[3].HeaderCell.Value = "Cell";
-            dgvClientInfo.Columns[4].HeaderCell.Value = "Address";
+            dgvClientInfo.Columns[4].HeaderCell.Value = "Email Address";
 
             dgvTrophee.Columns[0].HeaderCell.Value = "Trophee ID";
             dgvTrophee.Columns[1].HeaderCell.Value = "Client ID";
@@ -215,10 +196,7 @@ namespace Taksidermie
             }
         }
 
-        private void dgvClientInfo_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+ 
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
@@ -250,20 +228,6 @@ namespace Taksidermie
 
         }
 
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
-        private void label10_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
 
 
 
@@ -359,13 +323,7 @@ namespace Taksidermie
             }
         }
 
-        private void btnSearchTrophee_Click(object sender, EventArgs e)
-        {
 
-
-
-
-        }
 
         private void txtSearchTrophee_TextChanged(object sender, EventArgs e)
         {
@@ -381,11 +339,6 @@ namespace Taksidermie
                 dgvTrophee.DataSource = dh.SearchTrophee(txtSearchTrophee.Text, id);
                 dgvTrophee.DataMember = "tblTrophee";
             }
-        }
-
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
@@ -405,5 +358,129 @@ namespace Taksidermie
         }
 
 
+
+        private void btnDeleteTrophee_Click(object sender, EventArgs e)
+        {
+            DialogResult Delete = MessageBox.Show("Are you sure you want to delete " + sName, "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+            if (Delete == DialogResult.Yes)
+            {
+                dh.DeleteClient(id);
+                dgvClientInfo.DataSource = null;
+                dgvClientInfo.DataSource = dh.ReadTrophee(id);
+                dgvClientInfo.DataMember = "tblTrophee";
+            }
+        }
+
+        private void dgvTrophee_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvTrophee.CurrentCell != null)
+            {
+                try
+                {
+                    int index = dgvTrophee.CurrentCell.RowIndex;
+
+                    id = (int)dgvTrophee.Rows[index].Cells[0].Value;
+                    update();
+
+                    string ID = dgvTrophee.Rows[index].Cells[0].Value.ToString();
+                    txtName.Text = sName;
+                    string Amount = dgvTrophee.Rows[index].Cells[2].Value.ToString();
+                    txtAmount.Text = Amount;
+                    string Type = dgvTrophee.Rows[index].Cells[3].Value.ToString();
+                    cmbAnimal.Text = Type;
+                    string tropheeType = dgvTrophee.Rows[index].Cells[4].Value.ToString();
+                    cmbTrophee.Text = tropheeType;
+                    string Remarks = dgvTrophee.Rows[index].Cells[5].Value.ToString();
+                    richedit.Text = Remarks;
+                    string price = dgvTrophee.Rows[index].Cells[6].Value.ToString();
+                    txtPrice.Text = price;
+                    string deposit = dgvTrophee.Rows[index].Cells[7].Value.ToString();
+                    txtDeposit.Text = deposit;
+                    string depositPaid = dgvTrophee.Rows[index].Cells[8].Value.ToString();
+                    if (depositPaid == "true")
+                    {
+                        chkPaid.Checked = true;
+                    }
+                    else
+                    {
+                        chkPaid.Checked = false;
+                    }
+
+
+                    UpdateTitles();
+                }
+                catch (Exception r)
+                {
+
+                    MessageBox.Show("Selection Change " + r);
+                }
+
+
+            }
+            update();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            dgvClientInfo.DataSource = dh.Read();
+            dgvClientInfo.DataMember = "tblClientInfo";
+            dgvTrophee.DataSource = dh.ReadTrophee(id);
+            dgvTrophee.DataMember = "tblTrophee";
+            dgvInvoiceActive.DataSource = dh.ReadInvoiceActive();
+            dgvInvoiceActive.DataMember = "tblInvoice";
+            dgvInvoiceInactive.DataSource = dh.ReadInvoiceInactive();
+            dgvInvoiceInactive.DataMember = "tblInvoice";
+
+
+            txtID.Enabled = false;
+            txtName.Enabled = false;
+            txtSurname.Enabled = false;
+            txtAddress.Enabled = false;
+            txtCellphone.Enabled = false;
+            btnClient.Visible = false;
+            btnAddClient.Visible = false;
+
+
+            UpdateTitles();
+        }
+
+
+
+        private void txtSearchInvoiceActive_TextChanged(object sender, EventArgs e)
+        {
+            if (txtSearchInvoiceActive.Text == "")
+            {
+                dgvInvoiceActive.DataSource = null;
+                dgvInvoiceActive.DataSource = dh.ReadInvoiceActive();
+                dgvInvoiceActive.DataMember = "tblInvoice";
+            }
+            else
+            {
+                dgvInvoiceActive.DataSource = null;
+                dgvInvoiceActive.DataSource = dh.SearchInvoice(txtSearchTrophee.Text, "true");
+                dgvInvoiceActive.DataMember = "tblInvoice";
+            }
+        }
+
+        private void checkBox6_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtSearchInactive_TextChanged(object sender, EventArgs e)
+        {
+            if (txtSearchInvoiceActive.Text == "")
+            {
+                dgvInvoiceInactive.DataSource = null;
+                dgvInvoiceInactive.DataSource = dh.ReadInvoiceInactive();
+                dgvInvoiceInactive.DataMember = "tblInvoice";
+            }
+            else
+            {
+                dgvInvoiceInactive.DataSource = null;
+                dgvInvoiceInactive.DataSource = dh.SearchInvoice(txtSearchTrophee.Text, "false");
+                dgvInvoiceInactive.DataMember = "tblInvoice";
+            }
+        }
     }
 }

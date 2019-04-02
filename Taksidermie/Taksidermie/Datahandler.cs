@@ -48,6 +48,68 @@ namespace Taksidermie
             return dataSet;
         }
 
+        public DataSet ReadInvoiceActive()
+        {
+
+            try
+            {
+                dataSet = new DataSet();
+                conn = new SqlConnection(conString);
+                conn.Open();
+
+                string select = "SELECT * FROM  tblInvoice WHERE Active = 'true'";
+                adapter = new SqlDataAdapter(select, conn);
+
+                adapter.Fill(dataSet, "tblInvoice");
+
+            }
+            catch (Exception e)
+            {
+
+                System.Windows.Forms.MessageBox.Show("List<User> Read()" + e.Message);
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+
+            return dataSet;
+        }
+
+        public DataSet ReadInvoiceInactive()
+        {
+
+            try
+            {
+                dataSet = new DataSet();
+                conn = new SqlConnection(conString);
+                conn.Open();
+
+                string select = "SELECT * FROM  tblInvoice WHERE Active = 'false'";
+                adapter = new SqlDataAdapter(select, conn);
+
+                adapter.Fill(dataSet, "tblInvoice");
+
+            }
+            catch (Exception e)
+            {
+
+                System.Windows.Forms.MessageBox.Show("List<User> Read()" + e.Message);
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+
+            return dataSet;
+        }
+
         public DataSet DisplayPaid()
         {
 
@@ -57,10 +119,10 @@ namespace Taksidermie
                 conn = new SqlConnection(conString);
                 conn.Open();
 
-                string select = "SELECT * FROM  tblTrophee Where TropheeDepositPaid = 'True'";
+                string select = "SELECT * FROM  tblInvoice Where DepositPaid = 'True'";
                 adapter = new SqlDataAdapter(select, conn);
 
-                adapter.Fill(dataSet, "tblTrophee");
+                adapter.Fill(dataSet, "tblInvoice");
 
             }
             catch (Exception e)
@@ -88,10 +150,10 @@ namespace Taksidermie
                 conn = new SqlConnection(conString);
                 conn.Open();
 
-                string select = "SELECT * FROM  tblTrophee Where TropheeDepositPaid = 'True' and ClientID = '" + ID + "'";
+                string select = "SELECT * FROM  tblInvoice Where DepositPaid = 'True' and ClientID = '" + ID + "'";
                 adapter = new SqlDataAdapter(select, conn);
 
-                adapter.Fill(dataSet, "tblTrophee");
+                adapter.Fill(dataSet, "tblInvoice");
 
             }
             catch (Exception e)
@@ -119,10 +181,10 @@ namespace Taksidermie
                 conn = new SqlConnection(conString);
                 conn.Open();
 
-                string select = "SELECT * FROM  tblTrophee Where TropheeDepositPaid = 'False'";
+                string select = "SELECT * FROM  tblInvoice Where DepositPaid = 'False'";
                 adapter = new SqlDataAdapter(select, conn);
 
-                adapter.Fill(dataSet, "tblTrophee");
+                adapter.Fill(dataSet, "tblInvoice");
 
             }
             catch (Exception e)
@@ -150,10 +212,10 @@ namespace Taksidermie
                 conn = new SqlConnection(conString);
                 conn.Open();
 
-                string select = "SELECT * FROM  tblTrophee Where TropheeDepositPaid = 'False'and ClientID = '" + ID + "'";;
+                string select = "SELECT * FROM  tblInvoice Where DepositPaid = 'False'and ClientID = '" + ID + "'";;
                 adapter = new SqlDataAdapter(select, conn);
 
-                adapter.Fill(dataSet, "tblTrophee");
+                adapter.Fill(dataSet, "tblInvoice");
 
             }
             catch (Exception e)
@@ -271,6 +333,42 @@ namespace Taksidermie
 
         }
 
+        public DataSet SearchInvoice(string Search, string States)
+        {
+            dataSet = null;
+            try
+            {
+                dataSet = new DataSet();
+                conn = new SqlConnection(conString);
+                conn.Open();
+
+                string select = "SELECT * FROM tblInvoice WHERE InvoiceID LIKE '%" + Search + "%' and Active = '" + States + "' or Active LIKE '%" + Search + "%' " +
+                    " and Active = '" + States + "' or Pay LIKE '%" + Search + "%'  and Active = '" + States + "' or IntakeDate LIKE '%" + Search + "%'  and " +
+                    "Active = '" + States + "' or Deposit LIKE '%" + Search + "%'  and Active = '" + States + "' or " +
+                    "TotalAmountOutstanding LIKE '%" + Search + "%'  and Active = '" + States + "' or DepositPaid LIKE '%" + Search + "%'  and
+                    Active = '" + States + "' or PickedUp LIKE '%" + Search + "%' and Active = '" + States + "' or ClientPickedUp LIKE '%" + Search + "%' ";
+
+                adapter = new SqlDataAdapter(select, conn);
+
+                adapter.Fill(dataSet, "tblInvoice");
+
+            }
+            catch (Exception e)
+            {
+
+                System.Windows.Forms.MessageBox.Show("List<User> Read()" + e.Message);
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+
+            return dataSet;
+
+        }
 
         public void AddClient(Client NewClient)
         {
